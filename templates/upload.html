@@ -8,34 +8,129 @@ Upload Repository
 
 <div class="row justify-content-center">
 
-    <div class="col-md-6">
+    <div class="col-lg-8">
 
         <div class="card shadow">
 
             <div class="card-body">
 
-                <h2 class="mb-4">
+                <h2 class="mb-4 text-center">
                     Upload Repository
                 </h2>
+
+                <p class="text-muted text-center mb-4">
+                    Upload a GitHub repository as a ZIP file to analyze its
+                    source code structure.
+                </p>
 
                 <form method="POST" enctype="multipart/form-data">
 
                     <div class="mb-3">
 
+                        <label for="repository" class="form-label">
+                            Repository ZIP File
+                        </label>
+
                         <input
                             type="file"
                             class="form-control"
+                            id="repository"
                             name="repository"
                             accept=".zip"
                             required>
 
                     </div>
 
-                    <button class="btn btn-success">
-                        Upload
-                    </button>
+                    <div class="d-grid">
+
+                        <button
+                            type="submit"
+                            class="btn btn-success btn-lg">
+
+                            Upload Repository
+
+                        </button>
+
+                    </div>
 
                 </form>
+
+                {% if result %}
+
+                <hr class="my-4">
+
+                <h4 class="mb-3">
+                    Repository Information
+                </h4>
+
+                <table class="table table-bordered">
+
+                    <tbody>
+
+                        <tr>
+                            <th width="35%">Repository Name</th>
+                            <td>{{ result.repository }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Total Python Files</th>
+                            <td>{{ result.total_python_files }}</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                {% if result.python_files %}
+
+                <h4 class="mt-4 mb-3">
+                    Python Files
+                </h4>
+
+                <div class="table-responsive">
+
+                    <table class="table table-striped table-hover align-middle">
+
+                        <thead class="table-dark">
+
+                            <tr>
+
+                                <th>#</th>
+                                <th>File Name</th>
+                                <th>Extension</th>
+                                <th>Size (Bytes)</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for file in result.python_files %}
+
+                            <tr>
+
+                                <td>{{ loop.index }}</td>
+
+                                <td>{{ file.name }}</td>
+
+                                <td>{{ file.extension }}</td>
+
+                                <td>{{ file.size }}</td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                {% endif %}
+
+                {% endif %}
 
             </div>
 

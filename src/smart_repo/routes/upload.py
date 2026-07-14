@@ -1,7 +1,6 @@
-from pathlib import Path
+from flask import Blueprint, flash, redirect, render_template, request
 
-from flask import Blueprint, current_app, flash, redirect, render_template, request
-from smart_repo.services.upload_service import save_repository
+from smart_repo.services.analyzer import analyze_repository
 
 upload_bp = Blueprint("upload", __name__)
 
@@ -21,12 +20,17 @@ def upload_repository():
             flash("Please choose a ZIP file.", "warning")
             return redirect(request.url)
 
-        filename = save_repository(file)
+        result = analyze_repository(file)
 
-        flash(f"{filename} uploaded successfully.", "success")
+        flash(
+            f"{result['repository']} uploaded successfully. "
+            f"Found {result['total_python_files']} Python files.",
+            "success",
+        )
 
-        flash("Repository uploaded successfully.", "success")
-
-        return redirect("/upload")
+        return render_template(
+            "upload.html",
+            result=result,
+        )
 
     return render_template("upload.html")

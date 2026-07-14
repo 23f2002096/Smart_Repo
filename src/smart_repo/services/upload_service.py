@@ -5,15 +5,9 @@ from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
 
-def save_repository(file: FileStorage) -> str:
+def save_repository(file: FileStorage) -> Path:
     """
-    Save the uploaded repository ZIP file.
-
-    Args:
-        file: Uploaded ZIP file.
-
-    Returns:
-        Saved filename.
+    Save uploaded repository ZIP.
     """
 
     upload_folder = Path(current_app.config["UPLOAD_FOLDER"])
@@ -21,6 +15,8 @@ def save_repository(file: FileStorage) -> str:
 
     filename = secure_filename(file.filename)
 
-    file.save(upload_folder / filename)
+    destination = upload_folder / filename
 
-    return filename
+    file.save(destination)
+
+    return destination
