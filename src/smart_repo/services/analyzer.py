@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from smart_repo.config import Config
-from smart_repo.parser.scanner import scan_repository
+from smart_repo.parser.scanner import RepositoryScanner
 from smart_repo.services.extract_service import extract_repository
 from smart_repo.services.upload_service import save_repository
 
@@ -18,7 +18,8 @@ def analyze_repository(file):
         Config.EXTRACT_FOLDER,
     )
 
-    python_files = scan_repository(extracted_path)
+    scanner = RepositoryScanner(extracted_path)
+    python_files = scanner.scan()
 
     return {
         "repository": extracted_path.name,

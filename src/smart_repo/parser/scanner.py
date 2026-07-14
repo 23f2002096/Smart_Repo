@@ -1,34 +1,44 @@
 from pathlib import Path
 
-
-IGNORED_FOLDERS = {
+IGNORED_DIRECTORIES = {
     ".git",
     ".venv",
     "__pycache__",
     "node_modules",
+    ".idea",
+    ".vscode",
+    "env",
+    "venv",
 }
 
 
-def scan_repository(repository_path: Path) -> list[dict]:
+class RepositoryScanner:
     """
-    Scan repository and return metadata
-    for every Python file.
+    Scans a repository and collects metadata
+    for all Python source files.
     """
 
-    python_files = []
+    def __init__(self, repository_path: Path):
+        self.repository_path = Path(repository_path)
 
-    for path in repository_path.rglob("*.py"):
+    def scan(self) -> list[dict]:
+        python_files = []
 
-        if any(folder in path.parts for folder in IGNORED_FOLDERS):
-            continue
+        for file_path in self.repository_path.rglob("*.py"):
 
-        python_files.append(
-            {
-                "name": path.name,
-                "path": str(path),
-                "extension": path.suffix,
-                "size": path.stat().st_size,
-            }
-        )
+            if any(folder in file_path.parts for folder in IGNORED_DIRECTORIES):
+                continue
 
-    return python_files
+            python_files.append(
+                {
+                    "name": file_path.name,
+                    "path": str(file_path.relative_to(self.repository_path)),
+                    "absolute_path": str(file_path),
+                    "extension": file_path.suffix,
+                    "size": file_path.stat().st_size,
+                }
+            )
+
+        python_files.sort(key=lambda x: x["path"])
+
+        return python_files
