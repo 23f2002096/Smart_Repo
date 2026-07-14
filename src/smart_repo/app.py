@@ -1,7 +1,7 @@
 from flask import Flask
 
 from smart_repo.config import Config
-from smart_repo.routes import home_bp , upload_bp , dashboard_bp
+from smart_repo.routes import home_bp, upload_bp, dashboard_bp, repository_bp
 
 
 def create_app():
@@ -17,5 +17,6 @@ def create_app():
     app.register_blueprint(home_bp)
     app.register_blueprint(upload_bp)
     app.register_blueprint(dashboard_bp)
+    app.register_blueprint(repository_bp)
 
     return app

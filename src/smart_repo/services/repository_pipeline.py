@@ -6,6 +6,7 @@ from smart_repo.services.analytics import RepositoryAnalytics
 from smart_repo.services.extract_service import extract_repository
 from smart_repo.services.upload_service import save_repository
 from smart_repo.config import Config
+from smart_repo.services.repository_store import RepositoryStore
 
 
 class RepositoryPipeline:
@@ -56,6 +57,7 @@ class RepositoryPipeline:
         )
 
         repository = parser.parse()
+        RepositoryStore.save(repository)
 
         # ------------------------------------
         # Build Knowledge Graph
