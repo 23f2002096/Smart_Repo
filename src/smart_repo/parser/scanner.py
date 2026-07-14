@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from smart_repo.parser.models import FileInfo
+
 IGNORED_DIRECTORIES = {
     ".git",
     ".venv",
@@ -21,8 +23,8 @@ class RepositoryScanner:
     def __init__(self, repository_path: Path):
         self.repository_path = Path(repository_path)
 
-    def scan(self) -> list[dict]:
-        python_files = []
+    def scan(self) -> list[FileInfo]:
+        python_files: list[FileInfo] = []
 
         for file_path in self.repository_path.rglob("*.py"):
 
@@ -30,15 +32,15 @@ class RepositoryScanner:
                 continue
 
             python_files.append(
-                {
-                    "name": file_path.name,
-                    "path": str(file_path.relative_to(self.repository_path)),
-                    "absolute_path": str(file_path),
-                    "extension": file_path.suffix,
-                    "size": file_path.stat().st_size,
-                }
+                FileInfo(
+                    name=file_path.name,
+                    relative_path=str(file_path.relative_to(self.repository_path)),
+                    absolute_path=str(file_path.resolve()),
+                    extension=file_path.suffix,
+                    size=file_path.stat().st_size,
+                )
             )
 
-        python_files.sort(key=lambda x: x["path"])
+        python_files.sort(key=lambda file: file.relative_path)
 
         return python_files
