@@ -1,7 +1,7 @@
 from flask import Flask
 
 from smart_repo.config import Config
-from smart_repo.routes import home_bp
+from smart_repo.routes import home_bp , upload_bp
 
 
 def create_app():
@@ -15,5 +15,6 @@ def create_app():
     app.config["UPLOAD_FOLDER"] = str(Config.UPLOAD_FOLDER)
 
     app.register_blueprint(home_bp)
+    app.register_blueprint(upload_bp)
 
     return app

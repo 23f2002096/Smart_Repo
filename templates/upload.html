@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+Upload Repository
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-6">
+
+        <div class="card shadow">
+
+            <div class="card-body">
+
+                <h2 class="mb-4">
+                    Upload Repository
+                </h2>
+
+                <form method="POST" enctype="multipart/form-data">
+
+                    <div class="mb-3">
+
+                        <input
+                            type="file"
+                            class="form-control"
+                            name="repository"
+                            accept=".zip"
+                            required>
+
+                    </div>
+
+                    <button class="btn btn-success">
+                        Upload
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
