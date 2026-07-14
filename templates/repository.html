@@ -36,7 +36,15 @@ Repository Explorer
 
                 <td>{{ loop.index }}</td>
 
-                <td>{{ file.file.relative_path }}</td>
+                <td>
+
+                    <a href="{{ url_for('repository.file_details', file_index=loop.index0) }}">
+
+                        {{ file.file.relative_path }}
+
+                    </a>
+
+                </td>
 
                 <td>{{ file.file.size }} bytes</td>
 

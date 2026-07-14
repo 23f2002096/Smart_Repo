@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block title %}
+File Details
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2>{{ parsed_file.file.relative_path }}</h2>
+
+    <hr>
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+
+            File Information
+
+        </div>
+
+        <div class="card-body">
+
+            <p><strong>Name:</strong> {{ parsed_file.file.name }}</p>
+
+            <p><strong>Extension:</strong> {{ parsed_file.file.extension }}</p>
+
+            <p><strong>Size:</strong> {{ parsed_file.file.size }} Bytes</p>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <div class="card mb-4">
+
+                <div class="card-header">
+
+                    Classes
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if parsed_file.classes %}
+
+                        <ul>
+
+                        {% for cls in parsed_file.classes %}
+
+                            <li>{{ cls.name }}</li>
+
+                        {% endfor %}
+
+                        </ul>
+
+                    {% else %}
+
+                        No classes found.
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card mb-4">
+
+                <div class="card-header">
+
+                    Functions
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if parsed_file.functions %}
+
+                        <ul>
+
+                        {% for function in parsed_file.functions %}
+
+                            <li>{{ function.name }}</li>
+
+                        {% endfor %}
+
+                        </ul>
+
+                    {% else %}
+
+                        No functions found.
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+
+            Imports
+
+        </div>
+
+        <div class="card-body">
+
+            {% if parsed_file.imports %}
+
+                <ul>
+
+                {% for imp in parsed_file.imports %}
+
+                    <li>{{ imp.module }}</li>
+
+                {% endfor %}
+
+                </ul>
+
+            {% else %}
+
+                No imports found.
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="card mb-4">
+
+        <div class="card-header">
+
+            Function Calls
+
+        </div>
+
+        <div class="card-body">
+
+            {% if parsed_file.calls %}
+
+                <ul>
+
+                {% for call in parsed_file.calls %}
+
+                    <li>
+
+                        <strong>{{ call.caller }}</strong>
+
+                        →
+
+                        {{ call.callee }}
+
+                    </li>
+
+                {% endfor %}
+
+                </ul>
+
+            {% else %}
+
+                No calls found.
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <a
+        href="{{ url_for('repository.files') }}"
+        class="btn btn-secondary">
+
+        Back
+
+    </a>
+
+</div>
+
+{% endblock %}
