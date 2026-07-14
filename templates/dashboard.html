@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+
+{% block title %}
+Repository Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="row mb-4">
+
+        <div class="col">
+
+            <h2 class="fw-bold">
+                Repository Dashboard
+            </h2>
+
+            <p class="text-muted">
+                Repository analysis completed successfully.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Repository Information -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-primary text-white">
+            Repository Information
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+
+                    <strong>Repository Name</strong>
+
+                    <p class="mb-0">
+                        {{ analytics.repository }}
+                    </p>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <strong>Largest File</strong>
+
+                    <p class="mb-0">
+                        {{ analytics.largest_file }}
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <strong>Largest File Size</strong>
+
+                    <p class="mb-0">
+                        {{ analytics.largest_size }} Bytes
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card text-center shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Python Files
+                    </h5>
+
+                    <h2 class="text-primary">
+                        {{ analytics.python_files }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card text-center shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Classes
+                    </h5>
+
+                    <h2 class="text-success">
+                        {{ analytics.classes }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card text-center shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Functions
+                    </h5>
+
+                    <h2 class="text-warning">
+                        {{ analytics.functions }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card text-center shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Imports
+                    </h5>
+
+                    <h2 class="text-danger">
+                        {{ analytics.imports }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Calls -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-dark text-white">
+            Function Calls
+        </div>
+
+        <div class="card-body">
+
+            <h3 class="text-center text-primary">
+                {{ analytics.calls }}
+            </h3>
+
+        </div>
+
+    </div>
+
+    <!-- Top Imports -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-secondary text-white">
+            Top Imported Modules
+        </div>
+
+        <div class="card-body">
+
+            {% if analytics.top_imports %}
+
+            <table class="table table-striped">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Module</th>
+
+                        <th>Count</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for module, count in analytics.top_imports %}
+
+                    <tr>
+
+                        <td>{{ module }}</td>
+
+                        <td>{{ count }}</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <p>No imports found.</p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- Actions -->
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+
+            <a href="{{ url_for('upload.upload_repository') }}"
+               class="btn btn-primary w-100">
+
+                Upload Another Repository
+
+            </a>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <a href="/knowledge_graph.html"
+               target="_blank"
+               class="btn btn-success w-100">
+
+                View Knowledge Graph
+
+            </a>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <button
+                class="btn btn-dark w-100"
+                disabled>
+
+                AI Assistant (Coming Soon)
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

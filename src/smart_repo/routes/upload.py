@@ -1,6 +1,6 @@
 from flask import Blueprint, flash, redirect, render_template, request
 
-from smart_repo.services.analyzer import analyze_repository
+from smart_repo.services.repository_pipeline import RepositoryPipeline
 
 upload_bp = Blueprint("upload", __name__)
 
@@ -19,18 +19,18 @@ def upload_repository():
         if file.filename == "":
             flash("Please choose a ZIP file.", "warning")
             return redirect(request.url)
+        pipeline = RepositoryPipeline()
+        result = pipeline.analyze(file)
 
-        result = analyze_repository(file)
+        analytics = result["analytics"]
 
         flash(
-            f"{result['repository']} uploaded successfully. "
-            f"Found {result['total_python_files']} Python files.",
+            f"{analytics['repository']} analyzed successfully.",
             "success",
         )
 
         return render_template(
-            "upload.html",
-            result=result,
+            "dashboard.html",
+            analytics=result["analytics"],
         )
-
     return render_template("upload.html")
