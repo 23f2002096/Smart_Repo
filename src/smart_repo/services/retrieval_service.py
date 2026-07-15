@@ -2,6 +2,45 @@ from rapidfuzz import fuzz
 
 from smart_repo.services.repository_store import RepositoryStore
 
+STANDARD_LIBRARIES = {
+    "abc",
+    "argparse",
+    "ast",
+    "collections",
+    "contextlib",
+    "copy",
+    "csv",
+    "dataclasses",
+    "datetime",
+    "functools",
+    "glob",
+    "hashlib",
+    "heapq",
+    "inspect",
+    "io",
+    "itertools",
+    "json",
+    "logging",
+    "math",
+    "os",
+    "pathlib",
+    "pickle",
+    "queue",
+    "random",
+    "re",
+    "shutil",
+    "sqlite3",
+    "statistics",
+    "string",
+    "subprocess",
+    "sys",
+    "tempfile",
+    "threading",
+    "time",
+    "typing",
+    "uuid",
+    "zipfile",
+}
 
 class RetrievalService:
     """
@@ -171,6 +210,11 @@ class RetrievalService:
             # =====================================================
 
             for imp in parsed_file.imports:
+
+                root_module = imp.module.split(".")[0]
+
+                if root_module in STANDARD_LIBRARIES:
+                    continue
 
                 score = self.calculate_score(
                     query,

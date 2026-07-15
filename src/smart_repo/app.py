@@ -8,6 +8,7 @@ from smart_repo.routes import (
     dashboard_bp,
     repository_bp,
     search_bp,
+    ai_bp,
 )
 
 
@@ -42,4 +43,5 @@ def create_app():
 
     app.register_blueprint(search_bp)
 
+    app.register_blueprint(ai_bp)
     return app
