@@ -1,19 +1,22 @@
 from dataclasses import dataclass, field
 
-from smart_repo.parser.models.call_info import CallInfo
-from smart_repo.parser.models.class_info import ClassInfo
-from smart_repo.parser.models.file_info import FileInfo
-from smart_repo.parser.models.function_info import FunctionInfo
-from smart_repo.parser.models.import_info import ImportInfo
+from .call_info import CallInfo
+from .class_info import ClassInfo
+from .file_info import FileInfo
+from .function_info import FunctionInfo
+from .import_info import ImportInfo
 
 
 @dataclass
 class ParsedFile:
     """
-    Complete parsed representation of one Python file.
+    Represents one parsed Python source file.
     """
 
     file: FileInfo
+
+    # NEW
+    source_code: str = ""
 
     classes: list[ClassInfo] = field(default_factory=list)
 

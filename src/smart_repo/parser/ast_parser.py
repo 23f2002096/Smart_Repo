@@ -6,10 +6,10 @@ from smart_repo.parser.models import (
     ParsedFile,
 )
 from smart_repo.parser.visitors import (
-    ImportVisitor,
-    FunctionVisitor,
-    ClassVisitor,
     CallVisitor,
+    ClassVisitor,
+    FunctionVisitor,
+    ImportVisitor,
 )
 
 
@@ -27,6 +27,10 @@ class ASTParser:
         Parse a Python source file and return a ParsedFile object.
         """
 
+        # -----------------------------------
+        # Read Source Code
+        # -----------------------------------
+
         source = Path(
             self.file_info.absolute_path
         ).read_text(
@@ -35,8 +39,13 @@ class ASTParser:
 
         tree = ast.parse(source)
 
+        # -----------------------------------
+        # Parsed File
+        # -----------------------------------
+
         parsed_file = ParsedFile(
-            file=self.file_info
+            file=self.file_info,
+            source_code=source,
         )
 
         # -----------------------------------
@@ -66,10 +75,9 @@ class ASTParser:
 
         parsed_file.classes = class_visitor.classes
 
-
-        # -------------------------
+        # -----------------------------------
         # Call Visitor
-        # -------------------------
+        # -----------------------------------
 
         call_visitor = CallVisitor()
         call_visitor.visit(tree)
