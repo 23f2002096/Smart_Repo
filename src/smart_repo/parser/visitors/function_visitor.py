@@ -16,10 +16,14 @@ class FunctionVisitor(ast.NodeVisitor):
         function = FunctionInfo(
             name=node.name,
             line_number=node.lineno,
-            arguments=[arg.arg for arg in node.args.args],
+            end_line=getattr(node, "end_lineno", node.lineno),
+            arguments=[
+                arg.arg
+                for arg in node.args.args
+            ],
             decorators=[
-                ast.unparse(decorator)
-                for decorator in node.decorator_list
+                ast.unparse(d)
+                for d in node.decorator_list
             ],
         )
 

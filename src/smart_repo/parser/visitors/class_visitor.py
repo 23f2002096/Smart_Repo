@@ -16,6 +16,7 @@ class ClassVisitor(ast.NodeVisitor):
         class_info = ClassInfo(
             name=node.name,
             line_number=node.lineno,
+            end_line=getattr(node, "end_lineno", node.lineno),
             base_classes=[
                 ast.unparse(base)
                 for base in node.bases
