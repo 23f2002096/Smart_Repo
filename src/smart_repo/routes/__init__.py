@@ -4,6 +4,7 @@ from .dashboard import dashboard_bp
 from .repository import repository_bp
 from .search import search_bp
 from .ai import ai_bp
+from .graph import graph_bp
 
 __all__ = [
     "home_bp",
@@ -12,4 +13,5 @@ __all__ = [
     "repository_bp",
     "search_bp",
     "ai_bp",
+    "graph_bp",
 ]

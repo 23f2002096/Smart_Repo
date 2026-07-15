@@ -7,6 +7,7 @@ from smart_repo.services.extract_service import extract_repository
 from smart_repo.services.upload_service import save_repository
 from smart_repo.config import Config
 from smart_repo.services.repository_store import RepositoryStore
+from smart_repo.graph.graph_visualizer import GraphVisualizer
 
 
 class RepositoryPipeline:
@@ -30,6 +31,7 @@ class RepositoryPipeline:
     def __init__(self):
         self.analytics = RepositoryAnalytics()
         self.graph_builder = GraphBuilder()
+        self.graph_visualizer = GraphVisualizer
 
     def analyze(self, uploaded_file):
         """
@@ -65,6 +67,23 @@ class RepositoryPipeline:
         graph = self.graph_builder.build(repository)
 
         # ------------------------------------
+        # Generate Interactive Graph
+        # ------------------------------------
+
+        graph_path = Config.GRAPH_FOLDER / "knowledge_graph.html"
+
+        Config.GRAPH_FOLDER.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        visualizer = GraphVisualizer(graph)
+
+        visualizer.visualize(
+            str(graph_path)
+        )
+
+        # ------------------------------------
         # Generate Analytics
         # ------------------------------------
         analytics = self.analytics.analyze(repository)
@@ -75,5 +94,6 @@ class RepositoryPipeline:
         return {
             "repository": repository,
             "graph": graph,
+            "graph_file": graph_path,
             "analytics": analytics,
         }

@@ -228,49 +228,27 @@ Repository Dashboard
     </div>
 
     <!-- Actions -->
-    <div class="row">
+    <div class="d-flex gap-2 flex-wrap mb-3">
 
-        <div class="col-md-4 mb-3">
-
-            <a href="{{ url_for('upload.upload_repository') }}"
-               class="btn btn-primary w-100">
-
-                Upload Another Repository
-
-            </a>
-
-        </div>
-
-        <div class="col-md-4 mb-3">
-
-            <a href="/knowledge_graph.html"
-               target="_blank"
-               class="btn btn-success w-100">
-
-                View Knowledge Graph
-
-            </a>
-
-        </div>
-
-        <a
-            href="{{ url_for('ai.chat') }}"
-            class="btn btn-success">
-
-            🤖 Ask AI
-
+        <a href="{{ url_for('upload.upload_repository') }}"
+        class="btn btn-primary flex-fill">
+            Upload Another Repository
         </a>
 
-        <div class="col-md-4 mb-3">
+        <a href="{{ url_for('graph.graph') }}"
+        class="btn btn-primary flex-fill">
+            View Knowledge Graph
+        </a>
 
-            <a href="{{ url_for('repository.files') }}"
-            class="btn btn-primary w-100">
+        <a href="{{ url_for('ai.chat') }}"
+        class="btn btn-success flex-fill">
+            🤖 Ask AI
+        </a>
 
-                Repository Explorer
-
-            </a>
-
-        </div>
+        <a href="{{ url_for('repository.files') }}"
+        class="btn btn-primary flex-fill">
+            Repository Explorer
+        </a>
 
     </div>
 

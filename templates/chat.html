@@ -1,45 +1,185 @@
 {% extends "base.html" %}
 
 {% block title %}
-AI Repository Assistant
+Smart Repo AI Assistant
 {% endblock %}
 
 {% block content %}
 
-<div class="container mt-4">
+<div class="container py-4">
 
-    <h2>
-        🤖 Smart Repo AI
-    </h2>
+    <div class="row justify-content-center">
 
-    <hr>
+        <div class="col-lg-10">
 
-    <div
-        id="chat-box"
-        class="border rounded p-3 mb-3"
-        style="height:500px;overflow-y:auto;">
+            <div class="card shadow">
 
-    </div>
+                <div class="card-header bg-primary text-white">
 
-    <div class="input-group">
+                    <h3 class="mb-0">
+                        🤖 Smart Repo AI Assistant
+                    </h3>
 
-        <input
-            id="question"
-            class="form-control"
-            placeholder="Ask anything about the repository...">
+                    <small>
+                        Ask anything about your uploaded repository
+                    </small>
 
-        <button
-            class="btn btn-primary"
-            onclick="askAI()">
+                </div>
 
-            Send
+                <div class="card-body">
 
-        </button>
+                    <!-- Chat Window -->
+
+                    <div
+                        id="chat-box"
+                        class="border rounded p-3 mb-3 bg-light"
+                        style="height:550px;overflow-y:auto;">
+
+                        <div
+                            id="empty-state"
+                            class="text-center text-muted mt-5">
+
+                            <h4>
+                                👋 Welcome to Smart Repo
+                            </h4>
+
+                            <p>
+                                Ask questions about your repository.
+                            </p>
+
+                            <hr>
+
+                            <p class="fw-bold">
+                                Try asking:
+                            </p>
+
+                            <div class="d-grid gap-2 col-md-8 mx-auto">
+
+                                <button
+                                    class="btn btn-outline-primary suggestion"
+                                    data-question="Explain RepositoryScanner">
+
+                                    Explain RepositoryScanner
+
+                                </button>
+
+                                <button
+                                    class="btn btn-outline-primary suggestion"
+                                    data-question="Explain the project architecture">
+
+                                    Explain the project architecture
+
+                                </button>
+
+                                <button
+                                    class="btn btn-outline-primary suggestion"
+                                    data-question="How does repository upload work?">
+
+                                    How does repository upload work?
+
+                                </button>
+
+                                <button
+                                    class="btn btn-outline-primary suggestion"
+                                    data-question="Which files import Config?">
+
+                                    Which files import Config?
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Input -->
+
+                    <div class="input-group">
+
+                        <input
+                            id="question"
+                            type="text"
+                            class="form-control"
+                            placeholder="Ask a question about your repository..."
+                            autocomplete="off">
+
+                        <button
+                            class="btn btn-primary"
+                            onclick="askAI()">
+
+                            Ask AI
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
 </div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+    <a href="{{ url_for('dashboard.dashboard') }}"
+       class="btn btn-outline-secondary">
+
+        ← Back to Dashboard
+
+    </a>
+
+    <h4 class="mb-0">
+        🤖 Smart Repo AI Assistant
+    </h4>
+
+</div>
+
+<!-- Markdown -->
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<!-- Syntax Highlight -->
+
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<!-- Chat -->
 
 <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+
+<script>
+
+document.querySelectorAll(".suggestion").forEach(button => {
+
+    button.addEventListener("click", function () {
+
+        document.getElementById("question").value =
+            this.dataset.question;
+
+        askAI();
+
+    });
+
+});
+
+document.getElementById("question")
+.addEventListener("keypress", function(event){
+
+    if(event.key==="Enter"){
+
+        askAI();
+
+    }
+
+});
+
+</script>
 
 {% endblock %}
